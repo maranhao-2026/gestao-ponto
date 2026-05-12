@@ -130,44 +130,47 @@
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-2xl shadow-2xl opacity-0 transition-all z-50 pointer-events-none text-sm font-bold flex items-center gap-3">
         <span id="toast-msg">Mensagem</span>
     </div>
-
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         // ==================================================
         // 1. COLE AS SUAS CREDENCIAIS DO SUPABASE AQUI:
         // ==================================================
         const SUPABASE_URL = "https://fyhglewswvecvsgsppye.supabase.co";
         const SUPABASE_KEY = "sb_publishable_88bHZkvR0WujlvpFei0TNQ_JZwBfEd1";
-        
-        // 2. DEFINA A PALAVRA-PASSE DE ACESSO DO SISTEMA AQUI:
+
+         // 2. DEFINA O HASH DA PALAVRA-PASSE DE ACESSO DO SISTEMA AQUI:
         // ==================================================
-        const PASSWORD_CORRETA = "Ponto2026"; 
-        // ==================================================
+         const HASH_SENHA_CORRETA = "da3e63939634e9e0307bb27a8f117a07fc2438cb2d3fa6233a7e04df77227653"; 
+         // ==================================================
 
         let logs = [];
         const DAILY_LOAD_MINUTES = 6 * 60;
 
-        // Função de validação do Login
-        function handleLogin(event) {
-            event.preventDefault();
-            const inputPass = document.getElementById('access-password').value;
-            const errorMsg = document.getElementById('login-error');
+       // Função de validação do Login (AGORA PROTEGIDA COM HASH)
+       function handleLogin(event) {
+       event.preventDefault();
+       const inputPass = document.getElementById('access-password').value;
+       const errorMsg = document.getElementById('login-error');
 
-            if (inputPass === PASSWORD_CORRETA) {
-                // Esconde tela de login com transição suave
-                const loginScreen = document.getElementById('login-screen');
-                loginScreen.classList.add('opacity-0', 'pointer-events-none');
-                
-                // Mostra o aplicativo principal
-                const appContent = document.getElementById('app-content');
-                appContent.classList.remove('opacity-0', 'pointer-events-none');
-                
-                // Inicia o sistema
-                init();
-            } else {
-                errorMsg.classList.remove('hidden');
-                document.getElementById('access-password').value = "";
-            }
-        }
+    // Transforma a senha digitada em Hash para comparar de forma segura
+    const hashDigitado = CryptoJS.SHA256(inputPass).toString();
+
+    if (hashDigitado === HASH_SENHA_CORRETA) {
+        // Esconde tela de login com transição suave
+        const loginScreen = document.getElementById('login-screen');
+        loginScreen.classList.add('opacity-0', 'pointer-events-none');
+        
+        // Mostra o aplicativo principal
+        const appContent = document.getElementById('app-content');
+        appContent.classList.remove('opacity-0', 'pointer-events-none');
+        
+        // Inicia o sistema
+        init();
+    } else {
+        errorMsg.classList.remove('hidden');
+        document.getElementById('access-password').value = "";
+    }
+}
 
         function init() {
             updateClock();
