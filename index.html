@@ -258,7 +258,7 @@
             if (i !== -1) {
                 const newType = logs[i].type === 'Entrada' ? 'Saída' : 'Entrada';
                 try {
-                    const response = await fetch(`${SUPABASE_URL}/rest/v1/ponto_logs?id=eq.${id}`, {
+                    const response = await fetch(`${SUPABASE_URL}/rest/v1/ponto_diario?id=eq.${id}`, {
                         method: "PATCH",
                         headers: {
                             "apikey": SUPABASE_KEY,
