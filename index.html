@@ -226,7 +226,8 @@
             
             const d = mDate.split('-');
             const formattedDate = `${d[2]}/${d[1]}/${d[0]}`;
-            const newLog = { id: Date.now(), type, time: mTime, date: formattedDate };
+            //const newLog = { id: Date.now(), type, time: mTime, date: formattedDate };
+            const newLog = { type, time: mTime, date: formattedDate };
 
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/ponto_logs`, {
